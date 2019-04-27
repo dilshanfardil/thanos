@@ -19,10 +19,12 @@ public class ClassDTO extends SuperDTO{
     private SubjectDTO subject;
     private InstitueDTO institute;
 
+    private int year;
+
     public ClassDTO() {
     }
 
-    public ClassDTO(int classId, String day, String fromTime, String toTime, TutorDTO tutor, SubjectDTO subject, InstitueDTO institute) {
+    public ClassDTO(int classId, String day, String fromTime, String toTime, TutorDTO tutor, SubjectDTO subject, InstitueDTO institute, int year) {
         this.classId = classId;
         this.day = day;
         this.fromTime = fromTime;
@@ -30,6 +32,7 @@ public class ClassDTO extends SuperDTO{
         this.tutor = tutor;
         this.subject = subject;
         this.institute = institute;
+        this.year = year;
     }
 
     @Override
@@ -42,6 +45,7 @@ public class ClassDTO extends SuperDTO{
                 ", tutor=" + tutor +
                 ", subject=" + subject +
                 ", institute=" + institute +
+                ", year=" + year +
                 '}';
     }
 
@@ -99,5 +103,13 @@ public class ClassDTO extends SuperDTO{
 
     public void setInstitute(InstitueDTO institute) {
         this.institute = institute;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }

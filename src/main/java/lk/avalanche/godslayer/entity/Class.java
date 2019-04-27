@@ -37,27 +37,36 @@ public class Class {
     @Column(name = "to_time")
     private String toTime;
 
+    @Column(name = "year")
+    private int year;
+
 
     public Class() {
     }
 
-    public Class(int classId, int tutorId, int instituteId, int subjectId, String day, String fromTime, String toTime) {
+    public Class(int classId, int tutorId, int instituteId, int subjectId, String day, String fromTime, String toTime, int year) {
         this.classId = classId;
-        this.instituteId = instituteId;
-        this.subjectId = subjectId;
-        this.day = day;
-        this.fromTime = fromTime;
-        this.toTime = toTime;
-    }
-
-    public Class(int tutorId, int instituteId, int subjectId, String day, String fromTime, String toTime) {
         this.tutorId = tutorId;
         this.instituteId = instituteId;
         this.subjectId = subjectId;
         this.day = day;
         this.fromTime = fromTime;
         this.toTime = toTime;
+        this.year = year;
     }
+
+
+    public Class(int tutorId, int instituteId, int subjectId, String day, String fromTime, String toTime, int year) {
+        this.tutorId = tutorId;
+        this.instituteId = instituteId;
+        this.subjectId = subjectId;
+        this.day = day;
+        this.fromTime = fromTime;
+        this.toTime = toTime;
+        this.year = year;
+    }
+
+
 
     @Override
     public String toString() {
@@ -69,6 +78,7 @@ public class Class {
                 ", day='" + day + '\'' +
                 ", fromTime='" + fromTime + '\'' +
                 ", toTime='" + toTime + '\'' +
+                ", year=" + year +
                 '}';
     }
 
@@ -126,5 +136,14 @@ public class Class {
 
     public void setToTime(String toTime) {
         this.toTime = toTime;
+    }
+
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }

@@ -46,6 +46,7 @@ public class Tutor {
     }
 
     public Tutor(int tutorId, String lname, String fname, double reviewValue, byte[] image) {
+        this.tutorId = tutorId;
         this.lname = lname;
         this.fname = fname;
         this.reviewValue = reviewValue;

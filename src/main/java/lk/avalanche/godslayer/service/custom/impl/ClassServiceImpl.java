@@ -53,7 +53,7 @@ public class ClassServiceImpl  implements ClassService {
             SubjectDTO subjectDTO = new SubjectDTO(subject.getSubjectId(), new ExamDTO(exam.getExamId(), exam.getName()),subject.getName());
             InstitueDTO institueDTO = new InstitueDTO(institute.getInstituteId(), institute.getName(), institute.getPlace());
 
-            ClassDTO classDTO = new ClassDTO(aClass.getClassId(), aClass.getDay(), aClass.getFromTime(), aClass.getToTime(),tutorDTO, subjectDTO, institueDTO);
+            ClassDTO classDTO = new ClassDTO(aClass.getClassId(), aClass.getDay(), aClass.getFromTime(), aClass.getToTime(),tutorDTO, subjectDTO, institueDTO, aClass.getYear());
 
 
             returnList.add(classDTO);
@@ -82,13 +82,13 @@ public class ClassServiceImpl  implements ClassService {
         SubjectDTO subjectDTO = new SubjectDTO(subject.getSubjectId(), new ExamDTO(exam.getExamId(), exam.getName()),subject.getName());
         InstitueDTO institueDTO = new InstitueDTO(institute.getInstituteId(), institute.getName(), institute.getPlace());
 
-        ClassDTO classDTO = new ClassDTO(aClass.getClassId(), aClass.getDay(), aClass.getFromTime(), aClass.getToTime(),tutorDTO, subjectDTO, institueDTO);
+        ClassDTO classDTO = new ClassDTO(aClass.getClassId(), aClass.getDay(), aClass.getFromTime(), aClass.getToTime(),tutorDTO, subjectDTO, institueDTO, aClass.getYear());
         return classDTO;
     }
 
     @Override
     public void update(ClassDTO dto) {
-        classRepository.save(new Class(dto.getClassId(),dto.getTutor().getTutorId(), dto.getInstitute().getInstituteId(), dto.getSubject().getSubjectId(), dto.getDay(), dto.getFromTime(), dto.getToTime()));
+        classRepository.save(new Class(dto.getClassId(),dto.getTutor().getTutorId(), dto.getInstitute().getInstituteId(), dto.getSubject().getSubjectId(), dto.getDay(), dto.getFromTime(), dto.getToTime(), dto.getYear()));
 
     }
 
@@ -100,7 +100,7 @@ public class ClassServiceImpl  implements ClassService {
 
     @Override
     public void insert(ClassDTO dto) {
-        classRepository.save(new Class(dto.getTutor().getTutorId(), dto.getInstitute().getInstituteId(), dto.getSubject().getSubjectId(), dto.getDay(), dto.getFromTime(), dto.getToTime()));
+        classRepository.save(new Class(dto.getTutor().getTutorId(), dto.getInstitute().getInstituteId(), dto.getSubject().getSubjectId(), dto.getDay(), dto.getFromTime(), dto.getToTime(), dto.getYear()));
     }
 
     @Override
@@ -122,7 +122,7 @@ public class ClassServiceImpl  implements ClassService {
             SubjectDTO subjectDTO = new SubjectDTO(subject.getSubjectId(), new ExamDTO(exam.getExamId(), exam.getName()),subject.getName());
             InstitueDTO institueDTO = new InstitueDTO(institute.getInstituteId(), institute.getName(), institute.getPlace());
 
-            ClassDTO classDTO = new ClassDTO(aClass.getClassId(), aClass.getDay(), aClass.getFromTime(), aClass.getToTime(),tutorDTO, subjectDTO, institueDTO);
+            ClassDTO classDTO = new ClassDTO(aClass.getClassId(), aClass.getDay(), aClass.getFromTime(), aClass.getToTime(),tutorDTO, subjectDTO, institueDTO, aClass.getYear());
 
 
             returnList.add(classDTO);
