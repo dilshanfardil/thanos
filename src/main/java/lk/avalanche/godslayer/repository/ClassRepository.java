@@ -16,7 +16,7 @@ import java.util.List;
 
 public interface ClassRepository extends JpaRepository<Class, Integer> {
 
-    @Query("SELECT new Class(c.classId,c.tutorId, c.instituteId,c.subjectId,c.day,c.fromTime,c.toTime) FROM Class c WHERE c.tutorId=?1")
+    @Query("SELECT c FROM Class c WHERE c.tutorId=?1")
     List<Class> fetchClassAccordingToTutorId(int id);
 
 }

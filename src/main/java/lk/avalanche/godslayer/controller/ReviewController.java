@@ -62,5 +62,15 @@ public class ReviewController {
         return  new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/search")
+    public List<ReviewDTO> fetchReviewAccordingToTutorId(@RequestParam(name = "tutor_id",defaultValue = "")int id){
+        return reviewService.fetchReviewAccordingToTutorId(id);
+    }
+
+    @GetMapping("/count")
+    public Integer fetchReviewCountAccordingToTutorId(@RequestParam(name = "tutor_id",defaultValue = "")int id){
+        return reviewService.fetchReviewCountAccordingToTutorId(id);
+    }
+
 
 }

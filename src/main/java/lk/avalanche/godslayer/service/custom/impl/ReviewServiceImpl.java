@@ -75,4 +75,23 @@ public class ReviewServiceImpl implements ReviewService {
     public void insert(ReviewDTO reviewDTO) {
 
     }
+
+    @Override
+    public List<ReviewDTO> fetchReviewAccordingToTutorId(int id) {
+        return reviewRepository.fetchReviewAccordingToTutorId(id).stream().map(c -> {
+
+            User oneUser = userRepository.getOne(c.getUserId());
+            UserType oneUserType = userTypeRepository.getOne(oneUser.getUserTypeId());
+            Tutor oneTutor = tutorRepository.getOne(c.getTutorId());
+
+            return new ReviewDTO(c.getReviewId(),
+                    new UserDTO(oneUser.getUserId(), new UserTypeDTO(oneUserType.getUserTypeId(),oneUserType.getName()), oneUser.getName(), oneUser.getEmail(), oneUser.getPhoneNo()),
+                    new TutorDTO(oneTutor.getTutorId(), oneTutor.getFname(), oneTutor.getLname(), oneTutor.getReviewValue(), oneTutor.getImage()), c.getReviewValue(), c.getReviewComment(),c.getPublish());
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer fetchReviewCountAccordingToTutorId(int id) {
+        return reviewRepository.fetchReviewCountAccordingToTutorId(id);
+    }
 }
