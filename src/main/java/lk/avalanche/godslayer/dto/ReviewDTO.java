@@ -3,6 +3,9 @@ package lk.avalanche.godslayer.dto;
 import lk.avalanche.godslayer.entity.Tutor;
 import lk.avalanche.godslayer.entity.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Avalanche Pvt.Ltd.
  * User: Dilshan.Fardil
@@ -20,6 +23,8 @@ public class ReviewDTO extends SuperDTO {
     private String reviewComment;
     private int status;
 
+//    private List<ReviewCategoryDTO> reviewCategoryDTOs = new ArrayList<>();
+
 
     public ReviewDTO() {
     }
@@ -32,6 +37,7 @@ public class ReviewDTO extends SuperDTO {
         this.reviewComment = reviewComment;
         this.status = status;
     }
+
 
     public int getReviewId() {
         return reviewId;

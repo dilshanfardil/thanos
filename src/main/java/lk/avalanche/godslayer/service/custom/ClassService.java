@@ -4,6 +4,8 @@ import lk.avalanche.godslayer.dto.ClassDTO;
 import lk.avalanche.godslayer.service.SuperService;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * Created by Avalanche Pvt.Ltd.
  * User: Dilshan.Fardil
@@ -13,4 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface ClassService extends SuperService<ClassDTO> {
+
+    List<ClassDTO> fetchClassAccordingToTutorId(int id);
+
 }

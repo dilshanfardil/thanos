@@ -3,12 +3,14 @@ package lk.avalanche.godslayer.service.custom.impl;
 import lk.avalanche.godslayer.dto.*;
 import lk.avalanche.godslayer.entity.*;
 import lk.avalanche.godslayer.repository.*;
+import lk.avalanche.godslayer.service.custom.ReviewByCategoryService;
 import lk.avalanche.godslayer.service.custom.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Avalanche Pvt.Ltd.
@@ -24,134 +26,53 @@ public class ReviewServiceImpl implements ReviewService {
     ReviewRepository reviewRepository;
 
     @Autowired
-    ReviewByCategoryRepository reviewByCategoryRepository;
-
-    @Autowired
-    ReviewCategoryRepository reviewCategoryRepository;
-
-    @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    TutorRepository tutorRepository;
 
     @Autowired
     UserTypeRepository userTypeRepository;
 
+    @Autowired
+    TutorRepository tutorRepository;
+
     @Override
-    public List<ReviewByCategoryDTO> findAll() {
-        List<ReviewByCategory> all = reviewByCategoryRepository.findAll();
+    public List<ReviewDTO> findAll() {
+        return reviewRepository.findAll().stream().map(c -> {
 
-        List<ReviewByCategoryDTO> returnAll = new ArrayList<>();
+            User oneUser = userRepository.getOne(c.getUserId());
+            UserType oneUserType = userTypeRepository.getOne(oneUser.getUserTypeId());
+            Tutor oneTutor = tutorRepository.getOne(c.getTutorId());
 
-        for (int i = 0; i < all.size(); i++) {
-            ReviewByCategory reviewByCategory = all.get(i);
-
-            ReviewCategory reviewCategory = reviewCategoryRepository.getOne(reviewByCategory.getReviewCategoryId());
-            Review review = reviewRepository.getOne(reviewByCategory.getReviewId());
-            User user = userRepository.getOne(review.getUserId());
-            Tutor tutor = tutorRepository.getOne(review.getTutorId());
-            UserType userType = userTypeRepository.getOne(user.getUserTypeId());
-
-            ReviewCategoryDTO reviewCategoryDTO = new ReviewCategoryDTO(reviewCategory.getReviewCategoryId(), reviewCategory.getName());
-            UserDTO userDTO = new UserDTO(user.getUserId(), new UserTypeDTO(userType.getUserTypeId(), userType.getName()), user.getName(), user.getEmail(), user.getPhoneNo());
-            TutorDTO tutorDTO = new TutorDTO(tutor.getTutorId(), tutor.getLname(), tutor.getFname(), tutor.getReviewValue(), tutor.getImage());
-
-
-            ReviewByCategoryDTO reviewByCategoryDTO = new ReviewByCategoryDTO(
-                    reviewByCategory.getReviewByCategoryId(),
-                    reviewCategoryDTO,
-                    new ReviewDTO(review.getReviewId(), userDTO, tutorDTO, review.getReviewValue(), review.getReviewComment(), review.getPublish()),
-                    reviewByCategory.getValue()
-            );
-
-            returnAll.add(reviewByCategoryDTO);
-//            UserDTO userDTO = new UserDTO(one.getUserId().getUserId(), one.getUserId().get )
-//
-//            ReviewByCategoryDTO reviewByCategoryDTO = new ReviewByCategoryDTO(
-//                    reviewByCategory.getReviewByCategoryId(),
-//                    new ReviewCategory(c.getReviewCategoryId().getName()), c.getReview().getReviewId(), c.getValue());
-//
-//
-//            returnAll.add(reviewByCategory);
-        }
-
-        return returnAll;
+            return new ReviewDTO(c.getReviewId(),
+                    new UserDTO(oneUser.getUserId(), new UserTypeDTO(oneUserType.getUserTypeId(),oneUserType.getName()), oneUser.getName(), oneUser.getEmail(), oneUser.getPhoneNo()),
+                    new TutorDTO(oneTutor.getTutorId(), oneTutor.getFname(), oneTutor.getLname(), oneTutor.getReviewValue(), oneTutor.getImage()), c.getReviewValue(), c.getReviewComment(),c.getPublish());
+        }).collect(Collectors.toList());
     }
 
     @Override
-    public ReviewByCategoryDTO getrById(int id) {
-        ReviewByCategory reviewByCategory = reviewByCategoryRepository.getOne(id);
+    public ReviewDTO getrById(int id) {
+        Review c = reviewRepository.getOne(id);
+        User oneUser = userRepository.getOne(c.getUserId());
+        UserType oneUserType = userTypeRepository.getOne(oneUser.getUserTypeId());
+        Tutor oneTutor = tutorRepository.getOne(c.getTutorId());
 
-        ReviewCategory reviewCategory = reviewCategoryRepository.getOne(reviewByCategory.getReviewCategoryId());
-        Review review = reviewRepository.getOne(reviewByCategory.getReviewId());
-        User user = userRepository.getOne(review.getUserId());
-        Tutor tutor = tutorRepository.getOne(review.getTutorId());
-        UserType userType = userTypeRepository.getOne(user.getUserTypeId());
+        return new ReviewDTO(c.getReviewId(),
+                new UserDTO(oneUser.getUserId(), new UserTypeDTO(oneUserType.getUserTypeId(),oneUserType.getName()), oneUser.getName(), oneUser.getEmail(), oneUser.getPhoneNo()),
+                new TutorDTO(oneTutor.getTutorId(), oneTutor.getFname(), oneTutor.getLname(), oneTutor.getReviewValue(), oneTutor.getImage()), c.getReviewValue(), c.getReviewComment(),c.getPublish());
 
-        ReviewCategoryDTO reviewCategoryDTO = new ReviewCategoryDTO(reviewCategory.getReviewCategoryId(), reviewCategory.getName());
-        UserDTO userDTO = new UserDTO(user.getUserId(), new UserTypeDTO(userType.getUserTypeId(), userType.getName()), user.getName(), user.getEmail(), user.getPhoneNo());
-        TutorDTO tutorDTO = new TutorDTO(tutor.getTutorId(), tutor.getLname(), tutor.getFname(), tutor.getReviewValue(), tutor.getImage());
-
-
-        return new ReviewByCategoryDTO(
-                reviewByCategory.getReviewByCategoryId(),
-                reviewCategoryDTO,
-                new ReviewDTO(review.getReviewId(), userDTO, tutorDTO, review.getReviewValue(), review.getReviewComment(), review.getPublish()),
-                reviewByCategory.getValue()
-        );
     }
 
     @Override
-    public void update(ReviewByCategoryDTO dto) {
+    public void update(ReviewDTO reviewDTO) {
 
-        Review review = new Review(
-                dto.getReview().getReviewId(),
-                dto.getReview().getUser().getUserId(),
-                dto.getReview().getTutor().getTutorId(),
-                dto.getValue(),
-                dto.getReview().getReviewComment(),
-                dto.getReview().getStatus()
-        );
-
-        Review save = reviewRepository.save(review);
-
-
-        ReviewByCategory reviewByCategory = new ReviewByCategory(
-                dto.getReviewByCategoryId(),
-                dto.getReviewCategory().getReviewCategoryId(), save.getReviewId(), dto.getValue()
-        );
-
-        System.out.println(reviewByCategory);
-
-        reviewByCategoryRepository.save(reviewByCategory);
     }
 
     @Override
     public void delete(int id) {
-        reviewByCategoryRepository.deleteById(id);
+
     }
 
     @Override
-    public void insert(ReviewByCategoryDTO dto) {
+    public void insert(ReviewDTO reviewDTO) {
 
-        Review review = new Review(
-                dto.getReview().getUser().getUserId(),
-                dto.getReview().getTutor().getTutorId(),
-                dto.getValue(),
-                dto.getReview().getReviewComment(),
-                dto.getReview().getStatus()
-        );
-
-        Review save = reviewRepository.save(review);
-
-
-        ReviewByCategory reviewByCategory = new ReviewByCategory(
-                dto.getReviewCategory().getReviewCategoryId(), save.getReviewId(), dto.getValue()
-        );
-
-        System.out.println(reviewByCategory);
-
-        reviewByCategoryRepository.save(reviewByCategory);
     }
 }

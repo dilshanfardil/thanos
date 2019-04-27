@@ -102,6 +102,35 @@ public class ClassServiceImpl  implements ClassService {
     public void insert(ClassDTO dto) {
         classRepository.save(new Class(dto.getTutor().getTutorId(), dto.getInstitute().getInstituteId(), dto.getSubject().getSubjectId(), dto.getDay(), dto.getFromTime(), dto.getToTime()));
     }
+
+    @Override
+    public List<ClassDTO> fetchClassAccordingToTutorId(int id) {
+        List<Class> all = classRepository.fetchClassAccordingToTutorId(id);
+
+        List<ClassDTO> returnList = new ArrayList<>();
+
+        for (int i = 0; i < all.size(); i++) {
+
+            Class aClass = all.get(i);
+
+            Tutor tutor = tutorRepository.getOne(aClass.getTutorId());
+            Subject subject = subjectRepository.getOne(aClass.getSubjectId());
+            Exam exam = examRepository.getOne(subject.getExamId());
+            Institute institute = instituteRepository.getOne(aClass.getInstituteId());
+
+            TutorDTO tutorDTO = new TutorDTO(tutor.getTutorId(), tutor.getFname(), tutor.getLname(), tutor.getReviewValue(), tutor.getImage());
+            SubjectDTO subjectDTO = new SubjectDTO(subject.getSubjectId(), new ExamDTO(exam.getExamId(), exam.getName()),subject.getName());
+            InstitueDTO institueDTO = new InstitueDTO(institute.getInstituteId(), institute.getName(), institute.getPlace());
+
+            ClassDTO classDTO = new ClassDTO(aClass.getClassId(), aClass.getDay(), aClass.getFromTime(), aClass.getToTime(),tutorDTO, subjectDTO, institueDTO);
+
+
+            returnList.add(classDTO);
+
+        }
+
+        return returnList;
+    }
 }
 
 

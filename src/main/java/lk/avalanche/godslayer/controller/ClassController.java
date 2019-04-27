@@ -55,4 +55,9 @@ public class ClassController {
         return  new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/search")
+    public List<ClassDTO> fetchClassAccordingToTutorId(@RequestParam(name = "tutor_id",defaultValue = "")int id){
+        return classService.fetchClassAccordingToTutorId(id);
+    }
+
 }

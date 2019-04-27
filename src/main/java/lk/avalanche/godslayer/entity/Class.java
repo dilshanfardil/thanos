@@ -19,15 +19,12 @@ public class Class {
     @Column(name = "class_id")
     private int classId;
 
-//    @OneToOne(targetEntity = Tutor.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "tutor_id", referencedColumnName = "tutor_id")
     private int tutorId;
 
-//    @ManyToOne(targetEntity = Institute.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "institute_id", referencedColumnName = "institute_id")
     private int instituteId;
 
-//    @ManyToOne(targetEntity = Subject.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "subject_id", referencedColumnName = "subject_id")
     private int subjectId;
 
