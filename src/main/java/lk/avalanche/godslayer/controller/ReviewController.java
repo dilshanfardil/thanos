@@ -37,19 +37,18 @@ public class ReviewController {
     @GetMapping("/{id}")
     public ReviewDTO getReviewById(@PathVariable("id") int id){
         return reviewService.getrById(id);
-//        return new ReviewByCategory(new ReviewCategory(c.getReviewCategoryId().getName()), c.getReview().getReviewId(), c.getValue());
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity insertUserType(@RequestBody ReviewDTO dto){
+    public ResponseEntity inserReview(@RequestBody ReviewDTO dto){
         reviewService.insert(dto);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("/{id}")
-    public ResponseEntity updateUserType(@RequestBody ReviewDTO dto){
+    public ResponseEntity updateReview(@RequestBody ReviewDTO dto){
         reviewService.update(dto);
         return new ResponseEntity(HttpStatus.CREATED);
 
@@ -57,7 +56,7 @@ public class ReviewController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteUserType(@PathVariable int id){
+    public ResponseEntity deleteReview(@PathVariable int id){
         reviewService.delete(id);
         return  new ResponseEntity(HttpStatus.NO_CONTENT);
     }

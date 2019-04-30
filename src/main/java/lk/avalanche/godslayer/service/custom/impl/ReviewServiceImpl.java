@@ -26,6 +26,9 @@ public class ReviewServiceImpl implements ReviewService {
     ReviewRepository reviewRepository;
 
     @Autowired
+    ReviewByCategoryRepository reviewByCategoryRepository;
+
+    @Autowired
     UserRepository userRepository;
 
     @Autowired
@@ -63,7 +66,15 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void update(ReviewDTO reviewDTO) {
+        Review save = reviewRepository.save(new Review(reviewDTO.getUser().getUserId(), reviewDTO.getTutor().getTutorId(), reviewDTO.getReviewValue(), reviewDTO.getReviewComment(), reviewDTO.getStatus()));
 
+        List<ReviewByCategoryDTO> reviewByCategoryDTOS = reviewDTO.getReviewByCategoryDTOS();
+
+        for (ReviewByCategoryDTO dto : reviewByCategoryDTOS) {
+            reviewByCategoryRepository.save(new ReviewByCategory(
+                    dto.getReviewCategory().getReviewCategoryId(), save.getReviewId(), dto.getValue()
+            ));
+        }
     }
 
     @Override
@@ -73,6 +84,21 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void insert(ReviewDTO reviewDTO) {
+
+        Review save = reviewRepository.save(new Review(reviewDTO.getReviewId(), reviewDTO.getUser().getUserId(), reviewDTO.getTutor().getTutorId(), reviewDTO.getReviewValue(), reviewDTO.getReviewComment(), reviewDTO.getStatus()));
+
+        List<ReviewByCategoryDTO> reviewByCategoryDTOS = reviewDTO.getReviewByCategoryDTOS();
+
+        for (int i = 0; i < reviewByCategoryDTOS.size(); i++) {
+            ReviewByCategoryDTO dto = reviewByCategoryDTOS.get(i);
+
+            reviewByCategoryRepository.save(new ReviewByCategory(
+                    dto.getReviewByCategoryId(),i+1, save.getReviewId(), dto.getValue()
+            ));
+
+        }
+
+
 
     }
 

@@ -23,8 +23,7 @@ public class ReviewDTO extends SuperDTO {
     private String reviewComment;
     private int status;
 
-//    private List<ReviewCategoryDTO> reviewCategoryDTOs = new ArrayList<>();
-
+    List<ReviewByCategoryDTO> reviewByCategoryDTOS = new ArrayList<>();
 
     public ReviewDTO() {
     }
@@ -38,6 +37,23 @@ public class ReviewDTO extends SuperDTO {
         this.status = status;
     }
 
+    public ReviewDTO(int reviewId, UserDTO user, TutorDTO tutor, double reviewValue, String reviewComment, int status, List<ReviewByCategoryDTO> reviewByCategoryDTOS) {
+        this.reviewId = reviewId;
+        this.user = user;
+        this.tutor = tutor;
+        this.reviewValue = reviewValue;
+        this.reviewComment = reviewComment;
+        this.status = status;
+        this.reviewByCategoryDTOS = reviewByCategoryDTOS;
+    }
+
+    public List<ReviewByCategoryDTO> getReviewByCategoryDTOS() {
+        return reviewByCategoryDTOS;
+    }
+
+    public void setReviewByCategoryDTOS(List<ReviewByCategoryDTO> reviewByCategoryDTOS) {
+        this.reviewByCategoryDTOS = reviewByCategoryDTOS;
+    }
 
     public int getReviewId() {
         return reviewId;
